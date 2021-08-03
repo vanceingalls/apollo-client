@@ -593,13 +593,16 @@ describe('useQuery Hook', () => {
       ];
 
       const cache = new InMemoryCache();
-      const wrapper = ({ children }: any) => (
-        <MockedProvider mocks={mocks} cache={cache}>{children}</MockedProvider>
-      );
-
       const { result, rerender, waitForNextUpdate } = renderHook(
-        ({ skip }) => useQuery(query, { pollInterval: 10, skip }),
-        { wrapper, initialProps: { skip: undefined } as any },
+        ({ skip }) => useQuery1(query, { pollInterval: 10, skip }),
+        {
+          wrapper: ({ children }) => (
+            <MockedProvider mocks={mocks} cache={cache}>
+              {children}
+            </MockedProvider>
+          ),
+          initialProps: { skip: undefined } as any
+        },
       );
 
       expect(result.current.loading).toBe(true);
@@ -2036,7 +2039,7 @@ describe('useQuery Hook', () => {
 
       const onCompleted = jest.fn();
       const { result, waitForNextUpdate } = renderHook(
-        () => useQuery(query, {
+        () => useQuery1(query, {
           skip: true,
           onCompleted,
         }),
@@ -2584,7 +2587,7 @@ describe('useQuery Hook', () => {
       );
 
       const { result, rerender, waitForNextUpdate } = renderHook(
-        ({ skip }) => useQuery(query, { skip }),
+        ({ skip }) => useQuery1(query, { skip }),
         { wrapper, initialProps: { skip: true }  },
       );
 
@@ -2619,7 +2622,7 @@ describe('useQuery Hook', () => {
       );
 
       const { result, rerender, waitForNextUpdate } = renderHook(
-        ({ skip, variables }) => useQuery(query, { skip, variables }),
+        ({ skip, variables }) => useQuery1(query, { skip, variables }),
         { wrapper, initialProps: { skip: false, variables: undefined as any } },
       );
 
@@ -2649,7 +2652,7 @@ describe('useQuery Hook', () => {
       );
 
       const { unmount } = renderHook(
-        () => useQuery(query, { skip: true }),
+        () => useQuery1(query, { skip: true }),
         { wrapper },
       );
 
