@@ -2656,9 +2656,9 @@ describe('useQuery Hook', () => {
         { wrapper },
       );
 
-      expect(client.getObservableQueries().size).toBe(0);
+      expect(client.getObservableQueries('all').size).toBe(1);
       unmount();
-      expect(client.getObservableQueries().size).toBe(0);
+      expect(client.getObservableQueries('all').size).toBe(0);
     });
   });
 
